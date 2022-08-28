@@ -12,9 +12,9 @@ function openDevTools(window: BrowserWindow) {
 function loadView(window: BrowserWindow, view: string) {
   if(process.env.NODE_ENV === 'dev' && !process.env.NO_DEV_SERVER) {
     const port = process.env.PORT || 3000
-    window.loadURL(`http://localhost:${port}?view=${view}`)
+    window.loadURL(`http://localhost:${port}#/${view}`)
   } else {
-    window.loadFile(path.join(__dirname, 'index.html'), { query: { view }})
+    window.loadFile(path.join(__dirname, 'index.html'), { hash: `/${view}` })
   }
 }
 
