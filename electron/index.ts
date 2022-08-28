@@ -3,7 +3,22 @@ import * as path from 'path';
 
 let mainWindow: Electron.BrowserWindow | null;
 
-function createWindow() {
+function openDevTools(window: BrowserWindow) {
+  if(process.env.NODE_ENV === 'dev') {
+    window.webContents.openDevTools();
+  }
+}
+
+function loadView(window: BrowserWindow, view: string) {
+  if(process.env.NODE_ENV === 'dev' && !process.env.NO_DEV_SERVER) {
+    const port = process.env.PORT || 3000
+    window.loadURL(`http://localhost:${port}?view=${view}`)
+  } else {
+    window.loadFile(path.join(__dirname, 'index.html'), { query: { view }})
+  }
+}
+
+function createWindow(view: string) {
   // Create the browser window.electron
   mainWindow = new BrowserWindow({
     webPreferences: {
@@ -11,11 +26,12 @@ function createWindow() {
     },
   });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  // const index = url.pathToFileURL(path.join(__dirname, "index.html?window=main"))
+  // mainWindow.loadURL(index.toString());
+  // mainWindow.loadURL("http://localhost:3000?view=main")
+  // mainWindow.loadFile(path.join(__dirname, 'index.html'), { query: { view: 'main' }})
+  loadView(mainWindow, view)
+  openDevTools(mainWindow)
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -31,7 +47,8 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  createWindow();
+  createWindow('main');
+  createWindow('browser');
 });
 
 // Quit when all windows are closed.
@@ -47,7 +64,8 @@ app.on('activate', () => {
   // On OS X it"s common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow();
+    createWindow('main');
+    createWindow('browser');
   }
 });
 

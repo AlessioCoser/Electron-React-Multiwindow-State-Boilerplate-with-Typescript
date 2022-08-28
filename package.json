@@ -2,6 +2,12 @@
   "name": "electron-react",
   "version": "0.1.0",
   "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0",
+    "web-vitals": "^2.1.4"
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -12,25 +18,23 @@
     "@types/react-dom": "^18.0.6",
     "electron": "^20.1.0",
     "electron-builder": "^23.3.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "npm-run-all": "^4.1.5",
     "react-scripts": "5.0.1",
-    "typescript": "^4.8.2",
-    "web-vitals": "^2.1.4"
+    "typescript": "^4.8.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build:web": "PUBLIC_URL=./ react-scripts build",
-    "build:desktop": "tsc -p electron/tsconfig.json",
-    "start:desktop": "npm run build:web && npm run build:desktop && electron ./build/index.js",
-    "prebuild:package": "npm run build:web && npm run build:desktop",
-    "build:package:windows": "npm run prebuild:package && electron-builder --win",
-    "build:package:linux": "npm run prebuild:package && electron-builder --linux",
-    "build:package:mac": "npm run prebuild:package && electron-builder --mac",
-    "build:package:all": "npm run prebuild:package && electron-builder --win --linux --mac"
+    "start": "run-p --race start:renderer start:electron",
+    "start:static": "npm run build:renderer && npm run build:electron && NODE_ENV=dev NO_DEV_SERVER=true electron ./build/index.js",
+    "start:renderer": "BROWSER=none PORT=3000 react-scripts start",
+    "start:electron": "npm run build:electron && NODE_ENV=dev PORT=3000 electron ./build/index.js",
+    "build": "npm run build:renderer && npm run build:electron",
+    "build:renderer": "PUBLIC_URL=./ react-scripts build",
+    "build:electron": "tsc -p electron/tsconfig.json",
+    "pack": "npm run build && electron-builder --win --linux --mac",
+    "pack:win": "npm run build && electron-builder --win",
+    "pack:lin": "npm run build && electron-builder --linux",
+    "pack:mac": "npm run build && electron-builder --mac"
   },
   "eslintConfig": {
     "extends": [
@@ -55,8 +59,8 @@
       "homepage": "./",
       "main": "build/index.js"
     },
-    "productName": "my-app-name",
-    "appId": "my-app-id-or-version",
+    "productName": "PairNow",
+    "appId": "com.alessiocoser.pairnow",
     "files": [
       "build/**/*",
       "node_modules/**/*"
@@ -70,7 +74,7 @@
       "icon": "src/Assets/img/unix.icns"
     },
     "linux": {
-      "maintainer": "john@doe.com",
+      "maintainer": "Alessio Coser",
       "target": [
         "tar.gz",
         "deb"
