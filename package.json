@@ -21,18 +21,21 @@
     "electron": "^20.1.0",
     "electron-builder": "^23.3.3",
     "npm-run-all": "^4.1.5",
+    "parcel": "^2.7.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
     "react-scripts": "5.0.1",
     "typescript": "^4.8.2"
   },
   "scripts": {
     "test": "react-scripts test",
     "start": "run-p --race start:renderer start:electron",
-    "start:static": "npm run build:renderer && npm run build:electron && NODE_ENV=dev NO_DEV_SERVER=true electron ./build/index.js",
     "start:renderer": "BROWSER=none PORT=3000 react-scripts start",
     "start:electron": "npm run build:electron && NODE_ENV=dev PORT=3000 electron ./build/index.js",
+    "start:static": "npm run build && NODE_ENV=dev NO_DEV_SERVER=true electron ./build/index.js",
     "build": "npm run build:renderer && npm run build:electron",
     "build:renderer": "PUBLIC_URL=./ react-scripts build",
-    "build:electron": "tsc -p electron/tsconfig.json",
+    "build:electron": "parcel build && tsc -p electron/tsconfig.json",
     "pack": "npm run build && electron-builder --win --linux --mac",
     "pack:win": "npm run build && electron-builder --win",
     "pack:lin": "npm run build && electron-builder --linux",
@@ -55,6 +58,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "targets": {
+    "default": {
+      "source": "electron/preload.ts",
+      "distDir": "build",
+      "isLibrary": false,
+      "includeNodeModules": false,
+      "engines": {
+        "node": ">= 12"
+      }
+    }
   },
   "build": {
     "extraMetadata": {

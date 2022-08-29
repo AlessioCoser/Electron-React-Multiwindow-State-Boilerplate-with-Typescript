@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import { HashRouter } from "react-router-dom";
-const App = lazy(() => import('./App'));
-const Browser = lazy(() => import('./Browser'));
+const App = lazy(() => import('./Increment'));
+const Browser = lazy(() => import('./Decrement'));
 
 function ViewsRouter() {
   return (

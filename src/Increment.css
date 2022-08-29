@@ -1,19 +1,19 @@
-.App {
+.Increment {
   text-align: center;
 }
 
-.App-logo {
-  height: 150px;
+.Increment-logo {
+  height: 100px;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  .Increment-logo {
+    animation: Increment-logo-spin infinite 20s linear;
   }
 }
 
-.App-header {
+.Increment-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -24,11 +24,11 @@
   color: white;
 }
 
-.App-link {
+.Increment-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+@keyframes Increment-logo-spin {
   from {
     transform: rotate(0deg);
   }

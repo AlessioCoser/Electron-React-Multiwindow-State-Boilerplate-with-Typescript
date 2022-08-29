@@ -3,7 +3,7 @@ import counterSlice from './counterSlice'
 
 export const store = configureStore({
   reducer: {
-    counter: counterSlice,
+    counter: counterSlice
   },
   middleware: [window.ipcStore.middleware]
 })

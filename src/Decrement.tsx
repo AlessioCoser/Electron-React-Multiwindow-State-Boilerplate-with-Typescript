@@ -1,17 +1,17 @@
 import { useAppSelector, useAppDispatch } from './store/hooks'
 import { decrement } from './store/counterSlice'
 
-function Browser() {
+function Decrement() {
   const count = useAppSelector(state => state.counter.value)
   const dispatch = useAppDispatch()
 
   return (
     <div>
-      <h1>Browser!!!!</h1>
+      <h1>Decrement!!!!</h1>
       <div>Count: {count}</div>
       <button onClick={() => dispatch(decrement())}>Decrement</button>
     </div>
   );
 }
 
-export default Browser;
+export default Decrement;
