@@ -16,16 +16,14 @@ export function createIpcStore() {
   });
 }
 
-export function createIpcStoreClient() {
+export function createIpcStoreMiddleware() {
   const { ipcRenderer } = require('electron')
 
-  return {
-    listen: (dispatch: Function) => {
-      ipcRenderer.on(IPC_ACTION, (_: any, action: {type: string, payload: any}) => {
-        dispatch({ ...action, IPC: true })
-      })
-    },
-    middleware: (_: any) => (next: any) => (action: any) => {
+  return (store: any) => {
+    ipcRenderer.on(IPC_ACTION, (_: any, action: {type: string, payload: any}) => {
+      store.dispatch({ ...action, IPC: true })
+    })
+    return (next: any) => (action: any) => {
       console.log("action", action);
       if(!action.IPC) {
         ipcRenderer.send(IPC_ACTION, action)
