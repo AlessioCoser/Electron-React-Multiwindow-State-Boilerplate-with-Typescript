@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { Provider } from 'react-redux'
 import reportWebVitals from './reportWebVitals';
+import { store } from './store'
 import ViewsRouter from './ViewsRouter';
 
 const root = ReactDOM.createRoot(
@@ -9,7 +11,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <ViewsRouter />
+    <Provider store={store}>
+      <ViewsRouter />
+    </Provider>
   </React.StrictMode>
 );
 
