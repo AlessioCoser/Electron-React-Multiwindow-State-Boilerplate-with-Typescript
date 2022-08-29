@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useAppSelector, useAppDispatch } from './store/hooks'
-import { increment } from './store/counterSlice'
+import { increment, incrementByAmount } from './store/counterSlice'
 
 function App() {
   const count = useAppSelector(state => state.counter.value)
@@ -13,6 +13,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>Count: {count}</p>
         <button onClick={() => dispatch(increment())}>Increment</button>
+        <button onClick={() => dispatch(incrementByAmount(3))}>Increment By 3</button>
       </header>
     </div>
   );

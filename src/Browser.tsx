@@ -9,7 +9,7 @@ function Browser() {
     <div>
       <h1>Browser!!!!</h1>
       <div>Count: {count}</div>
-      <button onClick={() => dispatch(decrement())}>Increment</button>
+      <button onClick={() => dispatch(decrement())}>Decrement</button>
     </div>
   );
 }

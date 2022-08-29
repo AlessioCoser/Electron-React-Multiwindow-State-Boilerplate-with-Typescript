@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+import { createIpcStore } from './ipcStore';
 import * as path from 'path';
 
 let mainWindow: Electron.BrowserWindow | null;
@@ -21,6 +22,8 @@ function loadView(window: BrowserWindow, view: string) {
 function createWindow(view: string) {
   // Create the browser window.electron
   mainWindow = new BrowserWindow({
+    width: 200,
+    height: 200,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -40,13 +43,13 @@ function createWindow(view: string) {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
-  mainWindow.maximize();
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  createIpcStore()
   createWindow('main');
   createWindow('browser');
 });
