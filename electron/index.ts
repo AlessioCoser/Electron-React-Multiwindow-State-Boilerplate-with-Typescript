@@ -22,8 +22,8 @@ function loadView(window: BrowserWindow, view: string) {
 function createWindow(view: string) {
   // Create the browser window.electron
   mainWindow = new BrowserWindow({
-    width: 200,
-    height: 200,
+    width: 400,
+    height: 400,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },

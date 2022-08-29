@@ -1,5 +1,5 @@
-import { useAppSelector, useAppDispatch } from './store/hooks'
-import { decrement } from './store/counterSlice'
+import { useAppSelector, useAppDispatch } from '../store/hooks'
+import { decrement } from '../store/reducer/counterSlice'
 
 function Decrement() {
   const count = useAppSelector(state => state.counter.value)
@@ -7,7 +7,7 @@ function Decrement() {
 
   return (
     <div>
-      <h1>Decrement!!!!</h1>
+      <h1>Decrement</h1>
       <div>Count: {count}</div>
       <button onClick={() => dispatch(decrement())}>Decrement</button>
     </div>

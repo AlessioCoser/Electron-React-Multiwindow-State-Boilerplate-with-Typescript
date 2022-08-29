@@ -1,12 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterSlice from './counterSlice'
+import { reducer } from './reducer'
 
-export const store = configureStore({
-  reducer: {
-    counter: counterSlice
-  },
-  middleware: [window.ipcStoreMiddleware]
-})
+export const store = configureStore({reducer, middleware: [window.ipcStoreMiddleware] })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

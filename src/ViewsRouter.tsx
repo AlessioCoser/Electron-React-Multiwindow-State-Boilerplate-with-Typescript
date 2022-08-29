@@ -1,16 +1,16 @@
 import { lazy } from "react";
 import { HashRouter } from "react-router-dom";
-const App = lazy(() => import('./Increment'));
-const Browser = lazy(() => import('./Decrement'));
+const Increment = lazy(() => import('./components/Increment/Increment'));
+const Decrement = lazy(() => import('./components/Decrement'));
 
 function ViewsRouter() {
   return (
     <>
       <HashRouter basename="main">
-        <App />
+        <Increment />
       </HashRouter>
       <HashRouter basename="browser">
-        <Browser />
+        <Decrement />
       </HashRouter>
     </>
   );
