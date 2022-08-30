@@ -1,23 +1,15 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { HashRouter } from "react-router-dom";
 const Increment = lazy(() => import('./components/Increment/Increment'));
 const Decrement = lazy(() => import('./components/Decrement'));
 
 function ViewsRouter() {
   return (
-    <>
-      <HashRouter basename="main">
-        <Increment />
-      </HashRouter>
-      <HashRouter basename="browser">
-        <Decrement />
-      </HashRouter>
-    </>
+    <Suspense fallback={<span>Loading...</span>}>
+      <HashRouter basename="main"><Increment /></HashRouter>
+      <HashRouter basename="browser"><Decrement /></HashRouter>
+    </Suspense>
   );
 }
-
-// <Suspense fallback={<span>Loading...</span>}>
-//   <App />
-// </Suspense>
 
 export default ViewsRouter;

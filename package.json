@@ -29,13 +29,16 @@
   },
   "scripts": {
     "test": "react-scripts test",
+
     "start": "run-p --race start:renderer start:electron",
     "start:renderer": "BROWSER=none PORT=3000 react-scripts start",
     "start:electron": "npm run build:electron && NODE_ENV=dev PORT=3000 electron ./build/index.js",
     "start:static": "npm run build && NODE_ENV=dev NO_DEV_SERVER=true electron ./build/index.js",
+
     "build": "npm run build:renderer && npm run build:electron",
     "build:renderer": "PUBLIC_URL=./ react-scripts build",
     "build:electron": "parcel build && tsc -p electron/tsconfig.json",
+
     "pack": "npm run build && electron-builder --win --linux --mac",
     "pack:win": "npm run build && electron-builder --win",
     "pack:lin": "npm run build && electron-builder --linux",
