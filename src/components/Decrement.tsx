@@ -1,9 +1,9 @@
-import { useAppSelector, useAppDispatch } from '../store/hooks'
+import { useSelector, useDispatch } from '../store/hooks'
 import { decrement } from '../store/reducer/counterSlice'
 
 function Decrement() {
-  const count = useAppSelector(state => state.counter.value)
-  const dispatch = useAppDispatch()
+  const count = useSelector(state => state.counter.value)
+  const dispatch = useDispatch()
 
   return (
     <div>

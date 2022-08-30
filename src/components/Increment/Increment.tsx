@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import './Increment.css';
-import { useAppSelector, useAppDispatch } from '../../store/hooks'
+import { useSelector, useDispatch } from '../../store/hooks'
 import { increment, incrementByAmount, selectCount } from '../../store/reducer/counterSlice'
 
 function Increment() {
-  const count = useAppSelector(selectCount)
-  const dispatch = useAppDispatch()
+  const count = useSelector(selectCount)
+  const dispatch = useDispatch()
 
   return (
     <div className="Increment">
