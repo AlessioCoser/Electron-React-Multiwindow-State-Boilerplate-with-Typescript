@@ -1,13 +1,6 @@
 const IPC_ACTION = "IPC_ACTION"
+const STORAGE = { GET: "STORAGE_GET", SET: "STORAGE_SET", DEL: "STORAGE_DEL" }
 export type Action = {type: string, payload: any}
-
-function electronHandler(action: Action, onAction: (action: Action) => void) {
-  const [prefix, type] = action.type.split("/")
-  if(prefix !== "electron") {
-    return
-  }
-  onAction({ type: type, payload: action.payload })
-}
 
 export function broadcastElectronAction(windows: {[key: string]: any}, action: Action) {
   for (let key of Object.keys(windows)) {
@@ -18,33 +11,48 @@ export function broadcastElectronAction(windows: {[key: string]: any}, action: A
 
 export function createIpcStore(windows: {[key: string]: any}, onElectronActions: (action: Action) => void) {
   const { ipcMain } = require("electron")
-  const storage: {[key: string]: any} = {}
+  handleStoragePersistence()
+  handleActionsDispatching(windows, onElectronActions)
 
-  ipcMain.handle("STORAGE_GET", (_: any, key: string) => {
-    return storage[key]
-  })
+  function handleActionsDispatching(windows: {[key: string]: any}, onElectronActions: (action: Action) => void) {
+    ipcMain.on(IPC_ACTION, (event, action: Action) => {
+      const originWindow = (event.sender as any).getOwnerBrowserWindow()
 
-  ipcMain.handle("STORAGE_SET", (_: any, key: string, value: string | null) => {
-    storage[key] = value
-  })
+      electronHandler(action, onElectronActions)
 
-  ipcMain.handle("STORAGE_DEL", (_: any, key: string) => {
-    delete storage[key]
-  })
-
-  ipcMain.on(IPC_ACTION, (event, action: Action) => {
-    const originWindow = (event.sender as any).getOwnerBrowserWindow()
-
-    electronHandler(action, onElectronActions)
-
-    for (let key of Object.keys(windows)) {
-      const win = windows[key]
-      // Loose equals is intended, idk why Electron does this uh.
-      if (win.id !== originWindow.id) {
-        win.webContents.send(IPC_ACTION, action)
+      for (let key of Object.keys(windows)) {
+        const win = windows[key]
+        // Loose equals is intended, idk why Electron does this uh.
+        if (win.id !== originWindow.id) {
+          win.webContents.send(IPC_ACTION, action)
+        }
       }
+    });
+
+    function electronHandler(action: Action, onAction: (action: Action) => void) {
+      const [prefix, type] = action.type.split("/")
+      if(prefix !== "electron") {
+        return
+      }
+      onAction({ type: type, payload: action.payload })
     }
-  });
+  }
+
+  function handleStoragePersistence() {
+    const storage: {[key: string]: any} = {}
+
+    ipcMain.handle(STORAGE.GET, (_: any, key: string) => {
+      return storage[key]
+    })
+
+    ipcMain.handle(STORAGE.SET, (_: any, key: string, value: string | null) => {
+      storage[key] = value
+    })
+
+    ipcMain.handle(STORAGE.DEL, (_: any, key: string) => {
+      delete storage[key]
+    })
+  }
 }
 
 export function createIpcStoreMiddleware() {
@@ -69,13 +77,13 @@ export function createIpcStoreClient() {
 
   return {
     getItem: async (key: string): Promise<string> => {
-      return await ipcRenderer.invoke("STORAGE_GET", key)
+      return await ipcRenderer.invoke(STORAGE.GET, key)
     },
     setItem: async (key: string, item: string): Promise<void> => {
-      return await ipcRenderer.invoke("STORAGE_SET", key, item)
+      return await ipcRenderer.invoke(STORAGE.SET, key, item)
     },
     removeItem: async (key: string): Promise<void> => {
-      return await ipcRenderer.invoke("STORAGE_DEL", key)
+      return await ipcRenderer.invoke(STORAGE.DEL, key)
     },
   }
 }
