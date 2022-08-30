@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { Provider } from 'react-redux'
 import reportWebVitals from './reportWebVitals';
-import { store } from './store'
+import { persistor, store } from './store'
 import ViewsRouter from './ViewsRouter';
+import { PersistGate } from 'redux-persist/integration/react'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,7 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ViewsRouter />
+      <PersistGate loading={null} persistor={persistor}>
+        <ViewsRouter />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );

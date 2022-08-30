@@ -1,4 +1,5 @@
 import { contextBridge } from 'electron';
-import { createIpcStoreMiddleware } from './ipcStore';
+import { createIpcStoreClient, createIpcStoreMiddleware } from './ipcStore';
 
 contextBridge.exposeInMainWorld('ipcStoreMiddleware', createIpcStoreMiddleware())
+contextBridge.exposeInMainWorld('createIpcStoreClient', createIpcStoreClient)
