@@ -17,4 +17,12 @@ describe('Increment', () => {
 
     expect(screen.getByText('Count: 1')).toBeInTheDocument();
   })
+
+  test('increments count by 3', () => {
+    renderWithStore(<Increment />);
+
+    fireEvent.click(screen.getByText('Increment By 3', {selector: 'button'}));
+
+    expect(screen.getByText('Count: 3')).toBeInTheDocument();
+  })
 })
