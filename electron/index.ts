@@ -1,8 +1,8 @@
 import { app, BrowserWindow } from 'electron';
-import { createIpcStore } from './ipcStore';
+import { Action, broadcastElectronAction, createIpcStore } from './ipcStore';
 import * as path from 'path';
 
-let mainWindow: Electron.BrowserWindow | null;
+let window: Electron.BrowserWindow | null;
 
 function openDevTools(window: BrowserWindow) {
   if(process.env.NODE_ENV === 'dev') {
@@ -19,9 +19,15 @@ function loadView(window: BrowserWindow, view: string) {
   }
 }
 
+const windows: {[key: string]: BrowserWindow} = {}
+
+function destroyWindow(view: string) {
+  windows[view].destroy()
+}
+
 function createWindow(view: string) {
   // Create the browser window.electron
-  mainWindow = new BrowserWindow({
+  windows[view] = new BrowserWindow({
     width: 400,
     height: 400,
     webPreferences: {
@@ -33,15 +39,16 @@ function createWindow(view: string) {
   // mainWindow.loadURL(index.toString());
   // mainWindow.loadURL("http://localhost:3000?view=main")
   // mainWindow.loadFile(path.join(__dirname, 'index.html'), { query: { view: 'main' }})
-  loadView(mainWindow, view)
-  openDevTools(mainWindow)
+  loadView(windows[view], view)
+  openDevTools(windows[view])
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', () => {
+  windows[view].on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    mainWindow = null;
+    delete windows[view]
+    broadcastElectronAction(windows, { type: "closeDecrementWindow", payload: undefined })
   });
 }
 
@@ -49,9 +56,19 @@ function createWindow(view: string) {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  createIpcStore()
-  createWindow('main');
-  createWindow('browser');
+  createIpcStore(windows, (action: Action) => {
+    switch (action.type) {
+      case "openDecrementWindow":
+        createWindow("decrement");
+        break;
+      case "closeDecrementWindow":
+        destroyWindow("decrement");
+        break;
+    }
+  })
+
+  createWindow('increment');
+  // createWindow('browser');
 });
 
 // Quit when all windows are closed.
@@ -66,7 +83,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   // On OS X it"s common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
+  if (window === null) {
     createWindow('main');
     createWindow('browser');
   }

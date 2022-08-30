@@ -9,6 +9,6 @@ export default interface IpcAction {
 
 declare global {
   interface Window {
-    ipcStoreMiddleware: (store: any) => (next: any) => (action: IpcAction) => void,
+    ipcStoreMiddleware: (store: any) => (next: any) => (action: IpcAction) => void
   }
 }

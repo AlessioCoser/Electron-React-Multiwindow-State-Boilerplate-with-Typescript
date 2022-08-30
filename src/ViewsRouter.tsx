@@ -6,8 +6,8 @@ const Decrement = lazy(() => import('./components/Decrement'));
 function ViewsRouter() {
   return (
     <Suspense fallback={<span>Loading...</span>}>
-      <HashRouter basename="main"><Increment /></HashRouter>
-      <HashRouter basename="browser"><Decrement /></HashRouter>
+      <HashRouter basename="increment"><Increment /></HashRouter>
+      <HashRouter basename="decrement"><Decrement /></HashRouter>
     </Suspense>
   );
 }
