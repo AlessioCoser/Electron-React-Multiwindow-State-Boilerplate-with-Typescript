@@ -34,7 +34,7 @@
     "start:renderer": "BROWSER=none PORT=3000 react-scripts start",
     "start:electron": "sleep 5 && npm run build:electron && NODE_ENV=development PORT=3000 electron ./build/index.js",
     "start:static": "npm run build && NODE_ENV=development NO_DEV_SERVER=true electron ./build/index.js",
-    "build": "npm run build:renderer && npm run build:electron",
+    "build": "npm run build:renderer && sleep 2 && npm run build:electron",
     "build:renderer": "PUBLIC_URL=./ react-scripts build",
     "build:electron": "parcel build",
     "pack": "npm run build && electron-builder --win --linux --mac",

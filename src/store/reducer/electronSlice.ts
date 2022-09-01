@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '..'
-import { AppWindowTypes } from './AppWindowTypes'
+import { AppWindowTypes } from '../../../commons/AppWindowTypes'
 
 type ElectronWindows = {[key in AppWindowTypes]: boolean }
 

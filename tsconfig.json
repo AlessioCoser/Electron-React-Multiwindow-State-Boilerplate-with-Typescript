@@ -21,6 +21,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "test/components/Increment/Increment.test.tsx"  ]
+    "src",
+    "commons"
+  ]
 }

@@ -4,12 +4,16 @@
     "noImplicitAny": true,
     "sourceMap": true,
     "outDir": "../build",
-    "baseUrl": ".",
+    "rootDir": "..",
     "paths": {
-      "*": ["node_modules/*"]
+      "*": ["./node_modules/*"]
     }
   },
+  "include": [
+    "electron",
+    "commons"
+  ],
   "exclude": [
-    "preload.ts"
-  ]
+    "electron/preload.ts"
+  ],
 }

@@ -1,6 +1,8 @@
 import { app, BrowserWindow } from 'electron';
 import { Action, broadcastElectronAction, createIpcStore } from './ipcStore';
 import * as path from 'path';
+import { AppWindowTypes } from '../commons/AppWindowTypes'
+
 
 let window: Electron.BrowserWindow | null;
 
@@ -25,7 +27,7 @@ function destroyWindow(view: string) {
   windows[view].destroy()
 }
 
-function createWindow(view: string) {
+function createWindow(view: AppWindowTypes) {
   // Create the browser window.electron
   windows[view] = new BrowserWindow({
     width: 400,

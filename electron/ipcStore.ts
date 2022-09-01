@@ -63,7 +63,6 @@ export function createIpcStoreMiddleware() {
       store.dispatch({ ...action, IPC: true })
     })
     return (next: any) => (action: any) => {
-      console.log(action)
       if(!action.IPC && !action.type.startsWith("persist/")) {
         ipcRenderer.send(IPC_ACTION, action)
       }

@@ -8,7 +8,7 @@ export class WindowsManager {
   }
 
   get(view: string): AppWindow | null {
-    return this._windows.find((win) => win.name() === view)
+    return this._windows.find((win) => win.name() === view) || null
   }
 
   private onClose(view: string) {
