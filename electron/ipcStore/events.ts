@@ -1,0 +1,1 @@
+export const IPC_EVENT = "IPC_EVENT"
