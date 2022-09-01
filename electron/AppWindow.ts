@@ -1,5 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import * as path from 'path';
+import { Action } from "../commons/Action";
+import { AppWindowTypes } from "../commons/AppWindowTypes";
 
 export type AppWindowProps = {
   width: number,
@@ -7,11 +9,11 @@ export type AppWindowProps = {
 }
 
 export class AppWindow {
-  private _view: string
+  public readonly name: AppWindowTypes
   private _window: BrowserWindow | null = null
+  public readonly id: number
 
-  constructor(view: string, {width, height}: AppWindowProps, onClosed: () => void) {
-    this._view = view
+  constructor(name: AppWindowTypes, {width, height}: AppWindowProps, onClosed: (view: AppWindow) => void) {
     this._window = new BrowserWindow({
       width,
       height,
@@ -19,17 +21,20 @@ export class AppWindow {
         preload: path.join(app.getAppPath(), 'preload.js')
       },
     });
-    this._loadView(this._window, view)
+    this._loadView(this._window, name)
     this._openDevTools(this._window)
 
+    this.name = name
+    this.id = this._window?.id
+
     this._window.on('closed', () => {
+      onClosed(this)
       this._window = null
-      onClosed()
     });
   }
 
-  public name(): string {
-    return this._view
+  public send(event: string, action: Action) {
+    this._window?.webContents.send(event, action)
   }
 
   public destroy() {
@@ -43,7 +48,7 @@ export class AppWindow {
     }
   }
 
-  private _loadView(window: BrowserWindow, view: string) {
+  private _loadView(window: BrowserWindow, view: AppWindowTypes) {
     if(process.env.NODE_ENV === 'development' && !process.env.NO_DEV_SERVER) {
       const port = process.env.PORT || 3000
       window.loadURL(`http://localhost:${port}#/${view}`)
