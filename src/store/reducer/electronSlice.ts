@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '..'
+import { AppWindowTypes } from './AppWindowTypes'
 
-enum Windows {increment, decrement}
-
-type ElectronWindows = {[key in keyof typeof Windows]: boolean }
+type ElectronWindows = {[key in AppWindowTypes]: boolean }
 
 // Define a type for the slice state
 interface ElectronState {

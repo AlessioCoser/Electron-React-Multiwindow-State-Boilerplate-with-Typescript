@@ -5,17 +5,17 @@ import * as path from 'path';
 let window: Electron.BrowserWindow | null;
 
 function openDevTools(window: BrowserWindow) {
-  if(process.env.NODE_ENV === 'dev') {
+  if(process.env.NODE_ENV === 'development') {
     window.webContents.openDevTools();
   }
 }
 
 function loadView(window: BrowserWindow, view: string) {
-  if(process.env.NODE_ENV === 'dev' && !process.env.NO_DEV_SERVER) {
+  if(process.env.NODE_ENV === 'development' && !process.env.NO_DEV_SERVER) {
     const port = process.env.PORT || 3000
     window.loadURL(`http://localhost:${port}#/${view}`)
   } else {
-    window.loadFile(path.join(__dirname, 'index.html'), { hash: `/${view}` })
+    window.loadFile(path.join(app.getAppPath(), 'index.html'), { hash: `/${view}` })
   }
 }
 
@@ -31,7 +31,7 @@ function createWindow(view: string) {
     width: 400,
     height: 400,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(app.getAppPath(), 'preload.js'),
     },
   });
 
