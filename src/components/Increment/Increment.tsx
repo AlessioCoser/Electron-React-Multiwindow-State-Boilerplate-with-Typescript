@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './Increment.css';
 import { useSelector, useDispatch } from '../../store/hooks'
 import { increment, incrementByAmount, selectCount } from '../../store/reducer/counterSlice'
-import { openDecrementWindow, closeDecrementWindow, selectDecrementWindowOpened } from '../../store/reducer/electronSlice';
+import { openWindow, closeWindow, selectDecrementWindowOpened } from '../../store/reducer/electronSlice';
 
 function Increment() {
   const count = useSelector(selectCount)
@@ -18,8 +18,8 @@ function Increment() {
         <button onClick={() => dispatch(incrementByAmount(3))}>Increment By 3</button>
 
         { decrementWindowOpen
-          ? <button onClick={() => dispatch(closeDecrementWindow())}>Close Decrement Window</button>
-          : <button onClick={() => dispatch(openDecrementWindow())}>Open Decrement Window</button>
+          ? <button onClick={() => dispatch(closeWindow("decrement"))}>Close Decrement Window</button>
+          : <button onClick={() => dispatch(openWindow("decrement"))}>Open Decrement Window</button>
         }
 
         <img src={logo} className="Increment-logo" alt="logo" />

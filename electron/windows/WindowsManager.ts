@@ -1,5 +1,5 @@
-import { Action } from "../commons/Action";
-import { AppWindowTypes } from "../commons/AppWindowTypes";
+import { Action } from "../../commons/Action";
+import { AppWindowTypes } from "../../commons/AppWindowTypes";
 import { AppWindow, AppWindowProps } from "./AppWindow";
 
 export class WindowsManager {

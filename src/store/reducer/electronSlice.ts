@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '..'
 import { AppWindowTypes } from '../../../commons/AppWindowTypes'
 
@@ -22,17 +22,21 @@ export const electronSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    openDecrementWindow: state => {
-      state.windows.decrement = true
+    openWindow: (state, action: PayloadAction<AppWindowTypes>) => {
+      if(!state.windows[action.payload]) {
+        state.windows[action.payload] = true
+      }
     },
-    closeDecrementWindow: state => {
-      state.windows.decrement = false
+    closeWindow: (state, action: PayloadAction<AppWindowTypes>) => {
+      if(state.windows[action.payload]) {
+        state.windows[action.payload] = false
+      }
     }
   }
 })
 export default electronSlice.reducer
 
-export const { openDecrementWindow, closeDecrementWindow } = electronSlice.actions
+export const { openWindow, closeWindow } = electronSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectDecrementWindowOpened = (state: RootState) => state.electron.windows.decrement

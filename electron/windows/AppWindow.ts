@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import * as path from 'path';
-import { Action } from "../commons/Action";
-import { AppWindowTypes } from "../commons/AppWindowTypes";
+import { Action } from "../../commons/Action";
+import { AppWindowTypes } from "../../commons/AppWindowTypes";
 
 export type AppWindowProps = {
   width: number,
