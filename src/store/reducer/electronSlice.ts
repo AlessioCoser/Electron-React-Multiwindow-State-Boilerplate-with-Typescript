@@ -2,7 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '..'
 import { AppWindowTypes } from '../../../commons/AppWindowTypes'
 
-type ElectronWindows = {[key in AppWindowTypes]: boolean }
+type ElectronWindow = { open: boolean, show: boolean }
+
+type ElectronWindows = {[key in AppWindowTypes]: ElectronWindow }
 
 // Define a type for the slice state
 interface ElectronState {
@@ -12,8 +14,8 @@ interface ElectronState {
 // Define the initial state using that type
 const initialState: ElectronState = {
   windows: {
-    increment: true,
-    decrement: false
+    increment: { open: true, show: true },
+    decrement: { open: false, show: true }
   }
 }
 
@@ -23,13 +25,23 @@ export const electronSlice = createSlice({
   initialState,
   reducers: {
     openWindow: (state, action: PayloadAction<AppWindowTypes>) => {
-      if(!state.windows[action.payload]) {
-        state.windows[action.payload] = true
+      if(!state.windows[action.payload].open) {
+        state.windows[action.payload].open = true
       }
     },
     closeWindow: (state, action: PayloadAction<AppWindowTypes>) => {
-      if(state.windows[action.payload]) {
-        state.windows[action.payload] = false
+      if(state.windows[action.payload].open) {
+        state.windows[action.payload].open = false
+      }
+    },
+    showWindow: (state, action: PayloadAction<AppWindowTypes>) => {
+      if(!state.windows[action.payload].show) {
+        state.windows[action.payload].show = true
+      }
+    },
+    hideWindow: (state, action: PayloadAction<AppWindowTypes>) => {
+      if(state.windows[action.payload].show) {
+        state.windows[action.payload].show = false
       }
     }
   }
@@ -38,5 +50,4 @@ export default electronSlice.reducer
 
 export const { openWindow, closeWindow } = electronSlice.actions
 
-// Other code such as selectors can use the imported `RootState` type
-export const selectDecrementWindowOpened = (state: RootState) => state.electron.windows.decrement
+export const selectWindow = (window: AppWindowTypes) => (state: RootState) => state.electron.windows[window]

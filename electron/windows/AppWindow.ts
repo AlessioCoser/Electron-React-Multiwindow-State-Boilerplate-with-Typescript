@@ -37,6 +37,18 @@ export class AppWindow {
     this._window?.webContents.send(event, action)
   }
 
+  public show() {
+    if(!this._window?.isVisible()) {
+      this._window?.show()
+    }
+  }
+
+  public hide() {
+    if(this._window?.isVisible()) {
+      this._window?.hide()
+    }
+  }
+
   public destroy() {
     this._window?.destroy()
     this._window = null
