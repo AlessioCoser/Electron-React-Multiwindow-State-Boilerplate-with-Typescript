@@ -1,5 +1,4 @@
 import { app, BrowserWindow } from "electron";
-import * as path from 'path';
 import { Action } from "../../commons/Action";
 import { AppWindowTypes } from "../../commons/AppWindowTypes";
 
@@ -18,7 +17,7 @@ export class AppWindow {
       width,
       height,
       webPreferences: {
-        preload: path.join(app.getAppPath(), 'preload.js')
+        preload: this._path('preload.js')
       },
     });
     this._loadView(this._window, name)
@@ -65,7 +64,11 @@ export class AppWindow {
       const port = process.env.PORT || 3000
       window.loadURL(`http://localhost:${port}#/${view}`)
     } else {
-      window.loadFile(path.join(app.getAppPath(), 'index.html'), { hash: `/${view}` })
+      window.loadFile(this._path('index.html'), { hash: `/${view}` })
     }
+  }
+
+  private _path(file: string): string {
+    return `${app.getAppPath()}/build/${file}`
   }
 }
