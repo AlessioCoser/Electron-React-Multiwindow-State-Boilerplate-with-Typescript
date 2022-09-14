@@ -1,5 +1,5 @@
 {
-  "name": "electron-react",
+  "name": "electron-react-multiwindow-state",
   "version": "0.1.0",
   "private": true,
   "main": "build/index.js",
@@ -86,8 +86,8 @@
       "homepage": "./",
       "main": "build/index.js"
     },
-    "productName": "PairNow",
-    "appId": "com.alessiocoser.pairnow",
+    "productName": "electron-react-multiwindow-state",
+    "appId": "com.alessiocoser.electron-react-multiwindow-state",
     "files": ["build/**/*"],
     "mac": {
       "category": "public.app-category.productivity",
@@ -95,7 +95,7 @@
         "dmg",
         "zip"
       ],
-      "icon": "src/Assets/img/unix.icns"
+      "icon": "build/logo.icns"
     },
     "linux": {
       "maintainer": "Alessio Coser",
@@ -103,14 +103,14 @@
         "tar.gz",
         "deb"
       ],
-      "icon": "src/Assets/img/unix.icns"
+      "icon": "build/logo.icns"
     },
     "win": {
       "target": [
         "zip",
         "dir"
       ],
-      "icon": "src/Assets/img/windows.ico"
+      "icon": "build/logo.ico"
     }
   }
 }
