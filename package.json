@@ -32,14 +32,15 @@
     "typescript": "^4.8.2"
   },
   "scripts": {
-    "test": "react-scripts test",
+    "test": "CI=true react-scripts test --color",
     "test:e2e": "npm run build && playwright test tests/e2e",
+    "test:all": "run-p test test:e2e",
     "start": "run-p --race start:renderer start:electron",
     "start:renderer": "BROWSER=none PORT=3000 react-scripts start",
     "start:electron": "sleep 5 && npm run build:electron && NODE_ENV=development PORT=3000 electron .",
     "start:static": "npm run build && NODE_ENV=development NO_DEV_SERVER=true electron .",
     "clean": "rm -rf build && rm -rf dist",
-    "build": "npm run clean && npm run build:renderer && sleep 5 && npm run build:electron",
+    "build": "run-s clean build:renderer build:electron",
     "build:renderer": "PUBLIC_URL=./ react-scripts build",
     "build:electron": "parcel build",
     "pack": "npm run build && electron-builder --win --linux --mac",

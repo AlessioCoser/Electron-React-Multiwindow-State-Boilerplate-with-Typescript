@@ -1,5 +1,14 @@
 import { Action } from "../../commons/Action"
 import { AppWindowTypes } from "../../commons/AppWindowTypes"
 
-export const closeWindow: (view: AppWindowTypes) => Action = (view) => ({ type: `electron/closeWindow`, payload: view })
-export const openWindow: (view: AppWindowTypes) => Action = (view) => ({ type: `electron/openWindow`, payload: view })
+const electronAction = (type: string) => ({
+  type,
+  action(payload: AppWindowTypes): Action {
+    return { type, payload }
+  }
+})
+
+export const closeWindow = electronAction(`electron/closeWindow`)
+export const openWindow = electronAction(`electron/openWindow`)
+export const showWindow = electronAction(`electron/showWindow`)
+export const hideWindow = electronAction(`electron/hideWindow`)
