@@ -2,7 +2,7 @@
   "name": "electron-react-multiwindow-state",
   "version": "0.1.0",
   "private": true,
-  "main": "build/index.js",
+  "main": "build/electron/index.js",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
     "react": "^18.2.0",
@@ -68,7 +68,7 @@
   "targets": {
     "preload": {
       "source": "electron/preload.ts",
-      "distDir": "build",
+      "distDir": "build/electron",
       "isLibrary": false,
       "includeNodeModules": false,
       "engines": {
@@ -78,7 +78,7 @@
     "electron": {
       "context": "electron-main",
       "source": "electron/index.ts",
-      "distDir": "build",
+      "distDir": "build/electron",
       "engines": {
         "node": ">= 12"
       }
@@ -87,7 +87,7 @@
   "build": {
     "extraMetadata": {
       "homepage": "./",
-      "main": "build/index.js"
+      "main": "build/electron/index.js"
     },
     "productName": "electron-react-multiwindow-state",
     "appId": "com.alessiocoser.electron-react-multiwindow-state",

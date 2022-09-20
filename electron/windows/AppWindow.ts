@@ -17,7 +17,7 @@ export class AppWindow {
       width,
       height,
       webPreferences: {
-        preload: this._path('preload.js')
+        preload: this._serverPath('preload.js')
       },
     });
     this._loadView(this._window, name)
@@ -64,11 +64,15 @@ export class AppWindow {
       const port = process.env.PORT || 3000
       window.loadURL(`http://localhost:${port}#/${view}`)
     } else {
-      window.loadFile(this._path('index.html'), { hash: `/${view}` })
+      window.loadFile(this._clientPath('index.html'), { hash: `/${view}` })
     }
   }
 
-  private _path(file: string): string {
+  private _serverPath(file: string): string {
+    return `${app.getAppPath()}/build/electron/${file}`
+  }
+
+  private _clientPath(file: string): string {
     return `${app.getAppPath()}/build/${file}`
   }
 }
